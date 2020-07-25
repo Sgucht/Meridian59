@@ -20,13 +20,6 @@ resources:
    pants_desc_rsc = \
    "These pants will cover your legs but won't help much in the way of protection."
 
-   pants_condition_exc = " are in immaculate condition."
-   pants_condition_exc_mended = " are in excellent condition, but have been patched before.."
-   pants_condition_good = " are scuffed and slightly worn."
-   pants_condition_med = " have a few unsightly rips."
-   pants_condition_poor = " are in tatters, and barely holding together."
-   pants_condition_broken = " are covered in filth and ripped beyond use."
-
 classvars:
 
    vbShow_condition = TRUE
@@ -38,9 +31,6 @@ classvars:
    vrDesc = pants_desc_rsc
    vrName = pants_name_rsc
 
-   viHits_init_min = 450
-   viHits_init_max = 650
-
    viValue_average = 50
    viWeight = 10
    viBulk = 10
@@ -48,21 +38,19 @@ classvars:
    viGround_group = 1
    viInventory_group = 2
 
-   vrShow_condition = TRUE
-   vrCondition_exc = pants_condition_exc 
-   vrCondition_exc_mended = pants_condition_exc_mended 
-   vrCondition_good = pants_condition_good 
-   vrCondition_med = pants_condition_med 
-   vrCondition_poor = pants_condition_poor 
-   vrCondition_broken = pants_condition_broken 
-
-   vrItem_broken = defmod_broken_plural_clothes
+   vrShow_condition = FALSE
 
    viDefense_base = 5
 
 properties:
 
 messages:
+
+   DefendingHit(who = $,what = $)
+   {
+      % Return here to avoid damage.
+      return;
+   }
 
    Constructor(translation = $,model = $, color = $)
    {      
@@ -132,7 +120,7 @@ messages:
       
    ReqRepair()
    {
-      return TRUE;
+      return FALSE;
    }
 
    IsPlural()
