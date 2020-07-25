@@ -97,11 +97,7 @@ messages:
       return (hitroll - (2*iPower));
    }
 
-   if Send(oItemAtt,@HasTimer,#lData=lData)
-   {
-      return;
-   }
-   else
+   if NOT Send(oItemAtt,@HasTimer,#lData=lData)
    {
       AddEffects(oItem=$,state1=$)
       {
