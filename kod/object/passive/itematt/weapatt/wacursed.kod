@@ -16,6 +16,7 @@ WeapAttCursed is WeaponAttribute
 %		% this weapon cannot be dropped.
 %       % this weapon is automatically wielded when picked up
 %	% this weapon has a -(2*power) to hit and damage
+%       % this weapon has 10% of normal durability if it doesn't have a timer
 %
 %  Power is determined using standard WeapAtt Power table.
 %
@@ -50,6 +51,8 @@ properties:
   
    piValue_modifier = 100   %% modify the object's price by 100%
    piValue_power_modifier = -10
+
+   viDefault_Durability = 10 %% set durability to 10%
 
 messages:
   
@@ -92,6 +95,27 @@ messages:
       iPower = send(self,@DecipherHitrollFromPower,#iPower=iPower);
 
       return (hitroll - (2*iPower));
+   }
+
+   if Send(oItemAtt,@HasTimer,#lData=lData)
+   {
+      return;
+   }
+   else
+   {
+      AddEffects(oItem=$,state1=$)
+      {
+   	   local iHits;
+   	
+	   if state1=$  { state1 = viDefault_Durability; }
+
+           iHits = send(oItem,@GetMaxHits);
+	   iHits = (iHits * state1)/100;
+	   iHits = bound(iHits,1,$);
+	   send(oItem,@setMaxHits,#number=iHits);
+
+	   return;
+      }
    }
 
    ItemReqUnuse(oItem=$)
